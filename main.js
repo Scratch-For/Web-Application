@@ -58,67 +58,6 @@ app.on("/editor/:project_id/:owner_id", (req, res) =>{
     res.return()
 })
  
-app.on('/login', (req, res) => {
-    res.title("Login")
-    res.return()
-    dispose('./modules/views/Login.jsx', async ( Login ) => {
-        console.log(Login)
-        res.jsx(<Login/>)
-    })
-    res.return()
-})
-app.get('/login', (req, res) => {
-    res.title("Login")
-    res.return()
-    dispose('./modules/views/Login.jsx', async ( Login ) => {
-        console.log(Login)
-        res.jsx(<Login/>)
-    })
-    res.return()
-    app.listen('/login', (data) => {
-        let msg  = JSON.parse(data.data)
-
-        api.collection("users").authWithPassword(msg.username, msg.password).then((user) => {
-            
-            res.return()
-            res.redirect("/dash")
-            res.return()
-            app.stopListening('/login')
-          
-        }).catch((err) => {
-             let data  = err.data.data
-            if(data.password){
-                
-                app.post('/login_response', (res) => {
-                    res.set('Content-Type', 'application/json')
-                    res.json({error: data.password, type: "password"})
-                     
-                })
-            }else if(data.username){
-                app.post('/login_response', (res) => {
-                    res.set('Content-Type', 'application/json')
-                    res.json({error: err.data.username, type: "username"})
-                    
-                })
-            }else{
-                app.post('/login_response', (res) => {
-                    res.set('Content-Type', 'application/json')
-                    res.json({error: "Unknown error"})
-                    
-                })
-            }
-             
-        })
-    })
-})
-app.on('/register', (req, res) => {
-    res.title("Register")
-    res.return()
-    dispose('./modules/views/signup.jsx', async ( Register ) => {
-        res.jsx(<Register/>)
-    })
-    res.return()
-})
 
 app.on('/settings', (req, res) => {
     res.title("Settings")
